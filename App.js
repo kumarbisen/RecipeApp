@@ -1,29 +1,47 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
-
+import {Ionicons} from'@expo/vector-icons'
 import CategoriesScreen from './screens/CategoriesScreen';
 import MealsOverviewScreen from './screens/MealsOverviewScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native'
 import MealDetailScreen from './screens/MealDetailScreen';
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import FavoritesScreen from './screens/FavoritesScreen'
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function App() {
+function NavigationDrawer(){
+  // you can change background of drawer , icons etc
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      <Stack.Navigator screenOptions={
-        {
+    <Drawer.Navigator screenOptions={{
           headerStyle: { backgroundColor: '#351401', },
-          contentStyle: { backgroundColor: '#3f2f25' },
+          sceneContainerStyle: { backgroundColor: '#3f2f25' },
           statusBarStyle: 'light',
           headerTintColor: 'white',
           headerTitleStyle: { fontSize: 20 },
 
         }
       }>
-        <Stack.Screen name='MealsCategories' component={CategoriesScreen}
+
+
+       <Drawer.Screen name='Categories' component={CategoriesScreen}/>
+        <Drawer.Screen name='Favorites' component={FavoritesScreen}/>
+      
+    </Drawer.Navigator>
+ 
+
+  )
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar style="dark" />
+      <Stack.Navigator >
+        <Stack.Screen name='Drawer' component={NavigationDrawer} options={{
+          headerShown:false
+        }}
          
           /> 
       
@@ -36,7 +54,13 @@ export default function App() {
             
           // }}
            />
-        <Stack.Screen name='MealDetails' component={MealDetailScreen} />
+        <Stack.Screen name='MealDetails' component={MealDetailScreen} 
+        options={{
+        headerRight:()=>{
+          return <Ionicons name='star' size={24} color={'white'} />
+        }
+        
+        }}/>
  
 
       </Stack.Navigator>
